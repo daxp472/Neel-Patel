@@ -1,0 +1,450 @@
+@import "tailwindcss";
+
+/* =========================================================
+   CSS Custom Properties — Industrial Design System
+   ========================================================= */
+:root {
+  /* Colors */
+  --bg-base: #0a0c0e;
+  --bg-surface: #111518;
+  --bg-panel: #161b20;
+  --bg-card: #1a2128;
+  --border: #252e38;
+  --border-light: #2e3d4d;
+
+  --accent: #f97316;
+  --accent-dim: #c2410c;
+  --accent-glow: rgba(249, 115, 22, 0.15);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-meta: #546e7a;
+  --text-label: #f97316;
+
+  --grid-line: rgba(30, 50, 70, 0.6);
+  --grid-dot: rgba(249, 115, 22, 0.12);
+
+  /* Fonts */
+  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "Courier New", monospace;
+
+  /* Spacing */
+  --section-pad: 6rem;
+}
+
+/* =========================================================
+   Base Reset
+   ========================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   Blueprint Grid Background
+   ========================================================= */
+.blueprint-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+
+.blueprint-dots {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* =========================================================
+   Registration / Crosshair Marks
+   ========================================================= */
+.reg-mark {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+.reg-mark::before,
+.reg-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--accent);
+  opacity: 0.4;
+}
+.reg-mark::before {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+}
+.reg-mark::after {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+  left: 0;
+}
+.reg-mark-tl { top: 16px; left: 16px; }
+.reg-mark-tr { top: 16px; right: 16px; }
+.reg-mark-bl { bottom: 16px; left: 16px; }
+.reg-mark-br { bottom: 16px; right: 16px; }
+
+/* =========================================================
+   Typography Utilities
+   ========================================================= */
+.font-mono { font-family: var(--font-mono); }
+.font-sans { font-family: var(--font-sans); }
+
+.label-meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-meta);
+}
+
+.label-accent {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* =========================================================
+   Spec-Plate Card & Micro-interactions
+   ========================================================= */
+.spec-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.spec-card:hover {
+  border-color: rgba(249, 115, 22, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7),
+              0 0 20px -5px rgba(249, 115, 22, 0.12);
+}
+
+.spec-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  transition: opacity 0.25s ease;
+}
+
+.spec-card-header {
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.spec-card-body {
+  padding: 1.25rem;
+}
+
+/* =========================================================
+   CNC Digital Readout (DRO) HUD
+   ========================================================= */
+.cnc-dro-hud {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.5rem 1rem;
+  background: rgba(17, 21, 24, 0.85);
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.dro-axis-val {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* =========================================================
+   Dimension Line Divider
+   ========================================================= */
+.dim-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.dim-divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-light);
+  position: relative;
+}
+
+.dim-divider-line::before,
+.dim-divider-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--accent);
+  opacity: 0.6;
+}
+
+.dim-divider-line::before { left: 0; }
+.dim-divider-line::after { right: 0; }
+
+/* =========================================================
+   Skill Chip
+   ========================================================= */
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.skill-chip:hover {
+  border-color: var(--accent);
+  color: #ffffff;
+  background: rgba(249, 115, 22, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.15);
+}
+
+/* =========================================================
+   Orange Accent Button
+   ========================================================= */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.3);
+}
+
+.btn-primary:hover {
+  background: #fb923c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-outline:hover {
+  background: var(--accent-glow);
+  border-color: #fb923c;
+  color: #fb923c;
+  transform: translateY(-2px);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.2);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   Status Live Pulse
+   ========================================================= */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #4ade80;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.status-dot-active {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* =========================================================
+   Timeline
+   ========================================================= */
+.timeline-track {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--accent) 5%, var(--border-light) 90%, transparent);
+}
+
+.timeline-node {
+  position: absolute;
+  left: -4px;
+  top: 1.5rem;
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+/* =========================================================
+   Nav
+   ========================================================= */
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* =========================================================
+   Section
+   ========================================================= */
+.section-wrap {
+  position: relative;
+  padding: var(--section-pad) 0;
+  overflow: hidden;
+}
+
+/* =========================================================
+   Scrollbar
+   ========================================================= */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* =========================================================
+   Selection
+   ========================================================= */
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+/* =========================================================
+   Focus visible
+   ========================================================= */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}

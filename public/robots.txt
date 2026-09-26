@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://patel-neel.netlify.app/sitemap.xml
